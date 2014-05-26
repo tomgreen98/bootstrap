@@ -98,7 +98,8 @@ angular.module('ui.bootstrap.pagination', [])
 
       // Setup configuration parameters
       var maxSize = angular.isDefined(attrs.maxSize) ? scope.$parent.$eval(attrs.maxSize) : paginationConfig.maxSize,
-          rotate = angular.isDefined(attrs.rotate) ? scope.$parent.$eval(attrs.rotate) : paginationConfig.rotate;
+          rotate = angular.isDefined(attrs.rotate) ? scope.$parent.$eval(attrs.rotate) : paginationConfig.rotate,
+          id = attrs.id || 'pagination';
       scope.boundaryLinks = angular.isDefined(attrs.boundaryLinks) ? scope.$parent.$eval(attrs.boundaryLinks) : paginationConfig.boundaryLinks;
       scope.directionLinks = angular.isDefined(attrs.directionLinks) ? scope.$parent.$eval(attrs.directionLinks) : paginationConfig.directionLinks;
 
@@ -112,8 +113,9 @@ angular.module('ui.bootstrap.pagination', [])
       }
 
       // Create page object used in template
-      function makePage(number, text, isActive) {
+      function makePage(number, text, isActive, id) {
         return {
+          id: id + _ + text,
           number: number,
           text: text,
           active: isActive
@@ -150,19 +152,19 @@ angular.module('ui.bootstrap.pagination', [])
 
         // Add page number links
         for (var number = startPage; number <= endPage; number++) {
-          var page = makePage(number, number, number === currentPage);
+          var page = makePage(number, number, number === currentPage, id);
           pages.push(page);
         }
 
         // Add links to move between page sets
         if ( isMaxSized && ! rotate ) {
           if ( startPage > 1 ) {
-            var previousPageSet = makePage(startPage - 1, '...', false);
+            var previousPageSet = makePage(startPage - 1, '...', false, id);
             pages.unshift(previousPageSet);
           }
 
           if ( endPage < totalPages ) {
-            var nextPageSet = makePage(endPage + 1, '...', false);
+            var nextPageSet = makePage(endPage + 1, '...', false, id);
             pages.push(nextPageSet);
           }
         }
