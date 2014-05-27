@@ -42,6 +42,9 @@ angular.module('ui.bootstrap.pagination', [])
   $scope.getText = function( key ) {
     return $scope[key + 'Text'] || self.config[key + 'Text'];
   };
+  $scope.getId = function( key ) {
+    return ($scope['id'] || self.config['id']) + key;
+  };
   $scope.noPrevious = function() {
     return $scope.page === 1;
   };
@@ -72,7 +75,8 @@ angular.module('ui.bootstrap.pagination', [])
   previousText: 'Previous',
   nextText: 'Next',
   lastText: 'Last',
-  rotate: true
+  rotate: true,
+  id: 'pagination'
 })
 
 .directive('pagination', ['$parse', 'paginationConfig', function($parse, paginationConfig) {
@@ -83,7 +87,8 @@ angular.module('ui.bootstrap.pagination', [])
       firstText: '@',
       previousText: '@',
       nextText: '@',
-      lastText: '@'
+      lastText: '@',
+      id: '@'
     },
     require: ['pagination', '?ngModel'],
     controller: 'PaginationController',
@@ -98,7 +103,8 @@ angular.module('ui.bootstrap.pagination', [])
 
       // Setup configuration parameters
       var maxSize = angular.isDefined(attrs.maxSize) ? scope.$parent.$eval(attrs.maxSize) : paginationConfig.maxSize,
-          rotate = angular.isDefined(attrs.rotate) ? scope.$parent.$eval(attrs.rotate) : paginationConfig.rotate;
+          rotate = angular.isDefined(attrs.rotate) ? scope.$parent.$eval(attrs.rotate) : paginationConfig.rotate,
+          id = angular.isDefined(attrs.id) ? attrs.id : paginationConfig.id;
       scope.boundaryLinks = angular.isDefined(attrs.boundaryLinks) ? scope.$parent.$eval(attrs.boundaryLinks) : paginationConfig.boundaryLinks;
       scope.directionLinks = angular.isDefined(attrs.directionLinks) ? scope.$parent.$eval(attrs.directionLinks) : paginationConfig.directionLinks;
 

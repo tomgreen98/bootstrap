@@ -546,6 +546,7 @@ describe('pagination directive', function () {
       paginationConfig.previousText = 'PR';
       paginationConfig.nextText = 'NE';
       paginationConfig.lastText = 'LA';
+      paginationConfig.id = 'PG_';
       element = $compile('<pagination total-items="total" ng-model="currentPage"></pagination>')($rootScope);
       $rootScope.$digest();
 
@@ -553,6 +554,11 @@ describe('pagination directive', function () {
       expect(getPaginationEl(1).text()).toBe('PR');
       expect(getPaginationEl(-2).text()).toBe('NE');
       expect(getPaginationEl(-1).text()).toBe('LA');
+
+      expect(getPaginationEl(0).find('a').attr('id')).toBe('PG_first');
+      expect(getPaginationEl(1).find('a').attr('id')).toBe('PG_previous');
+      expect(getPaginationEl(-2).find('a').attr('id')).toBe('PG_next');
+      expect(getPaginationEl(-1).find('a').attr('id')).toBe('PG_last');
     });
 
     it('contains number of pages + 2 li elements', function() {
@@ -574,7 +580,7 @@ describe('pagination directive', function () {
 
   describe('override configuration from attributes', function () {
     beforeEach(function() {
-      element = $compile('<pagination boundary-links="true" first-text="<<" previous-text="<" next-text=">" last-text=">>" total-items="total" ng-model="currentPage"></pagination>')($rootScope);
+      element = $compile('<pagination id="p1_" boundary-links="true" first-text="<<" previous-text="<" next-text=">" last-text=">>" total-items="total" ng-model="currentPage"></pagination>')($rootScope);
       $rootScope.$digest();
     });
 
@@ -587,6 +593,11 @@ describe('pagination directive', function () {
       expect(getPaginationEl(1).text()).toBe('<');
       expect(getPaginationEl(-2).text()).toBe('>');
       expect(getPaginationEl(-1).text()).toBe('>>');
+
+      expect(getPaginationEl(0).find('a').attr('id')).toBe('p1_first');
+      expect(getPaginationEl(1).find('a').attr('id')).toBe('p1_previous');
+      expect(getPaginationEl(-2).find('a').attr('id')).toBe('p1_next');
+      expect(getPaginationEl(-1).find('a').attr('id')).toBe('p1_last');
     });
   });
 
